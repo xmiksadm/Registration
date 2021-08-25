@@ -16,12 +16,12 @@ import java.util.Collections;
 @Entity
 public class AppUser implements UserDetails {
 
-    @Id
     @SequenceGenerator(
             name = "student_sequence",
             sequenceName = "student_sequence",
             allocationSize = 1
     )
+    @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
             generator = "student_sequence"
@@ -33,10 +33,14 @@ public class AppUser implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private AppUserRole appUserRole;
-    private Boolean locked;
-    private Boolean enabled;
+    private Boolean locked = false;
+    private Boolean enabled = false;
 
-    public AppUser(String firstName, String lastName, String email, String password, AppUserRole appUserRole) {
+    public AppUser(String firstName,
+                   String lastName,
+                   String email,
+                   String password,
+                   AppUserRole appUserRole) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -46,7 +50,8 @@ public class AppUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(appUserRole.name());
+        SimpleGrantedAuthority authority =
+                new SimpleGrantedAuthority(appUserRole.name());
         return Collections.singleton(authority);
     }
 
@@ -55,12 +60,17 @@ public class AppUser implements UserDetails {
         return password;
     }
 
+    @Override
     public String getUsername() {
         return email;
     }
 
     public String getFirstName() {
         return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     @Override
