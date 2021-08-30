@@ -6,3 +6,6 @@ Login and registration backend system using Spring Boot.
 - [x] Java Mail
 - [x] Email verification with expiry
 - [x] PostgreSQL
+
+# TODO:
+Email verification
